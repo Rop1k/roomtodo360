@@ -3,8 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <link rel='stylesheet' href='public/css/style.css' type='text/css' media='all' />
+    <script type='text/javascript' src='public/js/three.min.js'></script>
+    <script type='text/javascript' src='public/js/panolens.min.js'></script>
 </head>
 <body>
-тест ропік
+    <div class="container">
+        <div id="canvas"></div>
+        <div id="progress"></div>
+    </div>
 </body>
+
+<script>
+        let viewer,progress, progressElement;
+
+        viewer = new PANOLENS.Viewer({
+            autoHideInfospot: false,
+            rotateSpeed: '0.2',
+            controlBar: false,
+            container: document.querySelector( '#canvas' )
+        });
+
+
+
+        progressElement = document.getElementById( 'progress' );
+
+        function onEnter ( event ) {
+
+            progressElement.style.width = 0;
+            progressElement.classList.remove( 'finish' );
+
+        }
+
+        function onProgress ( event ) {
+
+            progress = event.progress.loaded / event.progress.total * 100;
+            progressElement.style.width = progress + '%';
+            if ( progress === 100 ) {
+                progressElement.classList.add( 'finish' );
+            }
+
+        }
+
+        /* INIT PANORAMS */
+
+        panorama1 = new PANOLENS.ImagePanorama( 'public/images/panorama_test.jpg' );
+        panorama1.addEventListener( 'progress', onProgress );
+        panorama1.addEventListener( 'enter', onEnter );
+
+
+        viewer.add( panorama1);
+
+
+        //viewer.setPanorama(firstPanorama);
+
+
+
+
+</script>
+
 </html>
